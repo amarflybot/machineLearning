@@ -1,4 +1,4 @@
-# This is Naive based Sentiment Analysis
+# This is Naive bayes Sentiment Analysis
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
 
@@ -21,7 +21,7 @@ def main():
     classifier.fit(train_documents, train_labels)
 
     # Test Phase
-    predict = classifier.predict(count_vectorizer.transform(["I hate you"]))
+    predict = classifier.predict(count_vectorizer.transform(["I love you"]))
     print predict
 
 
