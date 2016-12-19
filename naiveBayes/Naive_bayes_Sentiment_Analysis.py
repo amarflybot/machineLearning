@@ -21,7 +21,7 @@ def main():
     classifier.fit(train_documents, train_labels)
 
     # Test Phase
-    predict = classifier.predict(count_vectorizer.transform(["I love you"]))
+    predict = classifier.predict(count_vectorizer.transform(["the food was awful"]))
     print predict
 
 
