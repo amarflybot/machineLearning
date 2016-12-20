@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.svm import LinearSVC
-import matplotlib.pyplot as plt
-from matplotlib import style
-from sklearn import svm
+
 
 def main():
     dataFile = '/home/amarendra/Downloads/ad.data'
@@ -20,10 +18,9 @@ def main():
     # Test Phase
     predict = clf.predict(training_data.iloc[12].values.reshape(1, -1))
     print(predict)
-    #df = pd.DataFrame.from_csv('/home/amarendra/Downloads/ad.data', parse_dates=False)
-    #df.b.plot(color='g', lw=1.3)
-    #df.c.plot(color='r', lw=1.3)
-
+    # df = pd.DataFrame.from_csv('/home/amarendra/Downloads/ad.data', parse_dates=False)
+    # df.b.plot(color='g', lw=1.3)
+    # df.c.plot(color='r', lw=1.3)
 
 
 # check whether a given value is missing value, if yes change it to NaN
