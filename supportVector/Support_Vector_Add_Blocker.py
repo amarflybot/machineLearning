@@ -19,10 +19,10 @@ def main():
 
     # Test Phase
     predict = clf.predict(training_data.iloc[12].values.reshape(1, -1))
-    print predict
-    df = pd.DataFrame.from_csv('/home/amarendra/Downloads/ad.data', parse_dates=False)
-    df.b.plot(color='g', lw=1.3)
-    df.c.plot(color='r', lw=1.3)
+    print(predict)
+    #df = pd.DataFrame.from_csv('/home/amarendra/Downloads/ad.data', parse_dates=False)
+    #df.b.plot(color='g', lw=1.3)
+    #df.c.plot(color='r', lw=1.3)
 
 
 
