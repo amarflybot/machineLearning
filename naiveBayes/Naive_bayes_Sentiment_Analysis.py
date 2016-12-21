@@ -1,6 +1,7 @@
 # This is Naive bayes Sentiment Analysis
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import BernoulliNB
+import matplotlib.pyplot as plt
 
 
 def main():

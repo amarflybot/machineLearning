@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC
 
 
@@ -18,6 +19,9 @@ def main():
     # Test Phase
     predict = clf.predict(training_data.iloc[12].values.reshape(1, -1))
     print(predict)
+
+    training_data.plot()
+    plt.show()
     # df = pd.DataFrame.from_csv('/home/amarendra/Downloads/ad.data', parse_dates=False)
     # df.b.plot(color='g', lw=1.3)
     # df.c.plot(color='r', lw=1.3)
