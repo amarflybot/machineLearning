@@ -9,7 +9,15 @@ def main():
     tfid_vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words='english')
     train_documents = tfid_vectorizer.fit_transform(train_documents)
     k_means = KMeans(n_clusters=3, init='k-means++', max_iter=100, n_init=1, verbose=True)
-    k_means.fit(train_documents)
+    means_fit = k_means.fit(train_documents)
+    count = 0
+    for i in range(len(lines)):
+        if count > 3:
+            break
+        if means_fit.labels_[i] == 0:
+            print(lines[i])
+            count+=1
+
 
 if __name__ == '__main__':
     main()
