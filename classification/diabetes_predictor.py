@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import metrics
 from sklearn.cross_validation import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.preprocessing import Imputer
 
@@ -93,15 +95,15 @@ def main():
     print("Accuracy: {0:0.4f}".format(metrics.accuracy_score(Y_test, nb_predict_test)))
 
     # Metrics
-    print("\nConfusion Matrix")
-    # Note the use of lebels for set 1=True to upper left and 0=False to lower right
+    print("\nConfusion Matrix with Naive Bayes algorithm")
+    # Note the use of labels for set 1=True to upper left and 0=False to lower right
     print("{0}".format(metrics.confusion_matrix(Y_test, nb_predict_test, labels=[1, 0])))
     # Confusion Matrix
     #     [[ 52  28]
     #      [ 33 118]]
 
-    print("\nClassification Matrix")
-    # Note the use of lebels for set 1=True to upper left and 0=False to lower right
+    print("\nClassification Matrix with Naive Bayes algorithm")
+    # Note the use of labels for set 1=True to upper left and 0=False to lower right
     # [[ 52  28]  [[TP FP]   Perfect     [[80  0]
     # [ 33 118]]  [FN TN]]  Classifier   [0 151]]
     #
@@ -119,6 +121,141 @@ def main():
     #
     # avg / total       0.74      0.74      0.74       231
 
+    # Random Forest
+    lr_model= RandomForestClassifier(random_state=42) # Create random forest object
+    lr_model.fit(X_train, Y_train.ravel())
+
+    # Performance on Training data
+    # Predict values using the training data
+    lr_predict_train = lr_model.predict(X_train)
+
+    # Accuracy on training data
+    print("\nAccuracy: {0:0.4f}".format(metrics.accuracy_score(Y_train, lr_predict_train)))
+
+    # Performance on Testing data
+    # Predict values using the testing data
+    lr_predict_test = lr_model.predict(X_test)
+
+    # Accuracy on Testing data
+    print("Accuracy: {0:0.4f}".format(metrics.accuracy_score(Y_test, lr_predict_test)))
+
+    # Metrics
+    print("\nConfusion Matrix with Random Forest algorithm")
+    # Note the use of lebels for set 1=True to upper left and 0=False to lower right
+    print("{0}".format(metrics.confusion_matrix(Y_test, lr_predict_test, labels=[1, 0])))
+
+    print("\nClassification Matrix with Random Forest algorithm")
+    print("{0}".format(metrics.classification_report(Y_test, lr_predict_test, labels=[1, 0])))
+    # This is a classic example for Over fitting
+
+    # Logistic Regression
+    lr_model= LogisticRegression(C=0.7 , random_state=42) # Create random forest object
+    lr_model.fit(X_train, Y_train.ravel())
+
+    # Performance on Training data
+    # Predict values using the training data
+    lr_predict_train = lr_model.predict(X_train)
+
+    # Accuracy on training data
+    print("\nAccuracy: {0:0.4f}".format(metrics.accuracy_score(Y_train, lr_predict_train)))
+
+    # Performance on Testing data
+    # Predict values using the testing data
+    lr_predict_test = lr_model.predict(X_test)
+
+    # Accuracy on Testing data
+    print("Accuracy: {0:0.4f}".format(metrics.accuracy_score(Y_test, lr_predict_test)))
+
+    # Metrics
+    print("\nConfusion Matrix with Logistic Regression algorithm")
+    # Note the use of labels for set 1=True to upper left and 0=False to lower right
+    print("{0}".format(metrics.confusion_matrix(Y_test, lr_predict_test, labels=[1, 0])))
+
+    print("\nClassification Matrix with Logistic Regression algorithm")
+    print("{0}".format(metrics.classification_report(Y_test, lr_predict_test, labels=[1, 0])))
+
+    # Automating Recall value testing
+    C_start = 0.1
+    C_end = 5
+    C_inc = 0.1
+    C_values, recall_scores = [],[]
+    C_val = C_start
+    best_recall_score = 0
+    while C_val < C_end:
+        C_values.append(C_val)
+        lr_model_loop = LogisticRegression(C=C_val, random_state=42)
+        lr_model_loop.fit(X_train, Y_train.ravel())
+        lr_predict_loop_test = lr_model_loop.predict(X_test)
+        recall_score = metrics.recall_score(Y_test, lr_predict_loop_test)
+        recall_scores.append(recall_score)
+        if recall_score > best_recall_score:
+            best_recall_score = recall_score
+            best_lr_predict_test = lr_predict_loop_test
+
+        C_val += C_inc
+
+    best_recall_C_val = C_values[recall_scores.index(best_recall_score)]
+    print("1st max value of {0:0.3f} occured at C={1:0.3f}".format(best_recall_score, best_recall_C_val))
+
+    plt.plot(C_values, recall_scores, "-")
+    plt.xlabel("C Values")
+    plt.ylabel("Recall values")
+    # plt.show()
+
+    # Logistic regression with class_weight='balanced'
+    # Automating Recall value testing
+    C_start = 0.1
+    C_end = 5
+    C_inc = 0.1
+    C_values, recall_scores = [],[]
+    C_val = C_start
+    best_recall_score = 0
+    while C_val < C_end:
+        C_values.append(C_val)
+        lr_model_loop = LogisticRegression(C=C_val, class_weight="balanced", random_state=42)
+        lr_model_loop.fit(X_train, Y_train.ravel())
+        lr_predict_loop_test = lr_model_loop.predict(X_test)
+        recall_score = metrics.recall_score(Y_test, lr_predict_loop_test)
+        recall_scores.append(recall_score)
+        if recall_score > best_recall_score:
+            best_recall_score = recall_score
+            best_lr_predict_test = lr_predict_loop_test
+
+        C_val += C_inc
+
+    best_recall_C_val = C_values[recall_scores.index(best_recall_score)]
+    print("1st max value of {0:0.3f} occured at C={1:0.3f}".format(best_recall_score, best_recall_C_val))
+
+    plt.plot(C_values, recall_scores, "-")
+    plt.xlabel("C Values")
+    plt.ylabel("Recall values")
+    plt.show()
+
+    # Again try the test on Test Data Set
+    lr_model= LogisticRegression(C=0.3,class_weight='balanced' , random_state=42) # Create random forest object
+    lr_model.fit(X_train, Y_train.ravel())
+
+    # Performance on Training data
+    # Predict values using the training data
+    lr_predict_train = lr_model.predict(X_train)
+
+    # Accuracy on training data
+    print("\nAccuracy with class_weight = balanced: {0:0.4f}".format(metrics.accuracy_score(Y_train, lr_predict_train)))
+
+    # Performance on Testing data
+    # Predict values using the testing data
+    lr_predict_test = lr_model.predict(X_test)
+
+    # Accuracy on Testing data
+    print("Accuracy with class_weight = balanced: {0:0.4f}".format(metrics.accuracy_score(Y_test, lr_predict_test)))
+
+    # Metrics
+    print("\nConfusion Matrix with Logistic Regression algorithm with class_weight = balanced:")
+    # Note the use of labels for set 1=True to upper left and 0=False to lower right
+    print("{0}".format(metrics.confusion_matrix(Y_test, lr_predict_test, labels=[1, 0])))
+
+    print("\nClassification Matrix with Logistic Regression algorithm with class_weight = balanced:")
+    print("{0}".format(metrics.classification_report(Y_test, lr_predict_test, labels=[1, 0])))
 
 # Function plots a graphical correlation matrix for each pair of columns in th dataframe.
 # Input :
