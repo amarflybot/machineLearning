@@ -47,19 +47,19 @@ def main():
 
     # Verifying predicted value was split correctly
     print("\nNumber of Original True cases: {0} ({1:0.2f} %)".format(len(df.loc[df['diabetes'] == True]), (
-    len(df.loc[df['diabetes'] == True]) / (len(df.index))) * 100))
+        len(df.loc[df['diabetes'] == True]) / (len(df.index))) * 100))
     print("Number of Original False cases: {0} ({1:0.2f} %)".format(len(df.loc[df['diabetes'] == False]), (
-    len(df.loc[df['diabetes'] == False]) / (len(df.index))) * 100))
+        len(df.loc[df['diabetes'] == False]) / (len(df.index))) * 100))
 
     print("\nNumber of Training True cases: {0} ({1:0.2f} %)".format(len(Y_train[Y_train[:] == True]), (
-    len(Y_train[Y_train[:] == True]) / (len(Y_train))) * 100))
+        len(Y_train[Y_train[:] == True]) / (len(Y_train))) * 100))
     print("Number of Training False cases: {0} ({1:0.2f} %)".format(len(Y_train[Y_train[:] == False]), (
-    len(Y_train[Y_train[:] == False]) / (len(Y_train))) * 100))
+        len(Y_train[Y_train[:] == False]) / (len(Y_train))) * 100))
 
     print("\nNumber of Test True cases: {0} ({1:0.2f} %)".format(len(Y_test[Y_test[:] == True]), (
-    len(Y_test[Y_test[:] == True]) / (len(Y_test))) * 100))
+        len(Y_test[Y_test[:] == True]) / (len(Y_test))) * 100))
     print("Number of Test False cases: {0} ({1:0.2f} %)".format(len(Y_test[Y_test[:] == False]), (
-    len(Y_test[Y_test[:] == False]) / (len(Y_test))) * 100))
+        len(Y_test[Y_test[:] == False]) / (len(Y_test))) * 100))
 
     # Post-split data Preparation
     print("\n# rows in dataFrame {0}".format(len(df)))
@@ -122,7 +122,7 @@ def main():
     # avg / total       0.74      0.74      0.74       231
 
     # Random Forest
-    lr_model= RandomForestClassifier(random_state=42) # Create random forest object
+    lr_model = RandomForestClassifier(random_state=42)  # Create random forest object
     lr_model.fit(X_train, Y_train.ravel())
 
     # Performance on Training data
@@ -149,7 +149,7 @@ def main():
     # This is a classic example for Over fitting
 
     # Logistic Regression
-    lr_model= LogisticRegression(C=0.7 , random_state=42) # Create random forest object
+    lr_model = LogisticRegression(C=0.7, random_state=42)  # Create random forest object
     lr_model.fit(X_train, Y_train.ravel())
 
     # Performance on Training data
@@ -178,7 +178,7 @@ def main():
     C_start = 0.1
     C_end = 5
     C_inc = 0.1
-    C_values, recall_scores = [],[]
+    C_values, recall_scores = [], []
     C_val = C_start
     best_recall_score = 0
     while C_val < C_end:
@@ -207,7 +207,7 @@ def main():
     C_start = 0.1
     C_end = 5
     C_inc = 0.1
-    C_values, recall_scores = [],[]
+    C_values, recall_scores = [], []
     C_val = C_start
     best_recall_score = 0
     while C_val < C_end:
@@ -232,7 +232,7 @@ def main():
     plt.show()
 
     # Again try the test on Test Data Set
-    lr_model= LogisticRegression(C=0.3,class_weight='balanced' , random_state=42) # Create random forest object
+    lr_model = LogisticRegression(C=0.3, class_weight='balanced', random_state=42)  # Create random forest object
     lr_model.fit(X_train, Y_train.ravel())
 
     # Performance on Training data
@@ -256,6 +256,7 @@ def main():
 
     print("\nClassification Matrix with Logistic Regression algorithm with class_weight = balanced:")
     print("{0}".format(metrics.classification_report(Y_test, lr_predict_test, labels=[1, 0])))
+
 
 # Function plots a graphical correlation matrix for each pair of columns in th dataframe.
 # Input :
