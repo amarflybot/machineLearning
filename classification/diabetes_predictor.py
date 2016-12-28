@@ -258,14 +258,18 @@ def main():
     print("{0}".format(metrics.classification_report(Y_test, lr_predict_test, labels=[1, 0])))
 
 
-# Function plots a graphical correlation matrix for each pair of columns in th dataframe.
-# Input :
-#       df: pandas DataFrame
-#       size: Vertical and horizontal size of the plot
-# Displays :
-#       matrix of correlation between cloumns. Blue-cyan-yellow-red-darkred ==> less to more correlated
-#                                               0 -------------------------> 1
-#                                               Expect a darkred line running from top left to bottom right
+"""
+Function plots a graphical correlation matrix for each pair of columns in th dataframe.
+Input :
+      df: pandas DataFrame
+      size: Vertical and horizontal size of the plot
+Displays :
+      matrix of correlation between columns. Blue-cyan-yellow-red-darkred ==> less to more correlated
+                                              0 -------------------------> 1
+                                              Expect a darkred line running from top left to bottom right
+"""
+
+
 def plot_correlation(df, size=11):
     corr = df.corr()  # data frame correlation functions
     fig, ax = plt.subplots(figsize=(size, size))
